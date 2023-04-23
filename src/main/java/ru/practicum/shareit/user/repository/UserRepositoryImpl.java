@@ -12,7 +12,6 @@ import java.util.Map;
 @Repository
 @Data
 public class UserRepositoryImpl implements UserRepository {
-    // Посмотреть код стайл для полей класса.
     private long id;
     private final Map<Long, User> users = new HashMap<>();
 

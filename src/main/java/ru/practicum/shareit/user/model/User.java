@@ -12,7 +12,6 @@ import java.util.Set;
  */
 @Data
 public class User {
-    // Дальше посмотрим по тестам, какие поля добавить.
     private Long id;
     private String name;
     @Email

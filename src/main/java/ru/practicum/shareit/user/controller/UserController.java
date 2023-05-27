@@ -9,9 +9,6 @@ import ru.practicum.shareit.user.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -45,8 +42,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public User deleteUser(@PathVariable Long userId) {
+    public void deleteUser(@PathVariable Long userId) {
         log.info("Поступил DELETE запрос в UserController: метод deleteUser(), userId={} ", userId);
-        return service.deleteUserById(userId);
+        service.deleteUserById(userId);
     }
 }

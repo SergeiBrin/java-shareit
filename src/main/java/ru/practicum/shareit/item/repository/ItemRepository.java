@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByUserId(Long userId, Sort sort);
 
-    Optional<Item> findByIdAndUserIdNot(Long itemId, Long UserId);
+    Optional<Item> findByIdAndUserIdNot(Long itemId, Long userId);
 
     @Query("select it " +
            "from Item as it " +

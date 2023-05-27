@@ -33,9 +33,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByBookerId(Long userId, Sort sort);
 
-    List<Booking>findByItemUserId(Long userId, Sort sort);
+    List<Booking> findByItemUserId(Long userId, Sort sort);
 
-    List<Booking> findByBookerIdAndEndBefore(Long userId, LocalDateTime now, Sort Sort);
+    List<Booking> findByBookerIdAndEndBefore(Long userId, LocalDateTime now, Sort sort);
 
     List<Booking> findByBookerIdAndItemIdAndStatusAndEndBefore(Long userId,
                                                                Long itemId,
@@ -43,7 +43,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                                                                LocalDateTime now,
                                                                Pageable page);
 
-    List<Booking> findByItemUserIdAndEndBefore(Long userId, LocalDateTime now, Sort Sort);
+    List<Booking> findByItemUserIdAndEndBefore(Long userId, LocalDateTime now, Sort sort);
 
     @Query("select book " +
             "from Booking as book " +

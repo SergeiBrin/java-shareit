@@ -7,15 +7,11 @@ import ru.practicum.shareit.user.model.User;
 import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Entity
 @Table(name = "items")
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Item {

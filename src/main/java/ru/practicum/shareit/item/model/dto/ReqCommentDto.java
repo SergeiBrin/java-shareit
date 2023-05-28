@@ -1,10 +1,10 @@
 package ru.practicum.shareit.item.model.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
 public class ReqCommentDto {
     @NotBlank
     private String text;

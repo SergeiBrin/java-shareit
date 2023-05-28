@@ -10,3 +10,9 @@ public class ShareItApp {
 		SpringApplication.run(ShareItApp.class, args);
 	}
 }
+
+	/*
+		1. При for each листа запроса есть обращение к вложенной объекту, то для этого объекта
+		нужен вложенный join fetch для этого объекта
+		2. Transactional в методы
+ 	*/

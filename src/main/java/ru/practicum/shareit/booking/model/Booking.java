@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "bookings")
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Booking {
@@ -28,16 +27,15 @@ public class Booking {
     private LocalDateTime end;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item")
     @ToString.Exclude
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "booker")
     @ToString.Exclude
     private User booker;
 

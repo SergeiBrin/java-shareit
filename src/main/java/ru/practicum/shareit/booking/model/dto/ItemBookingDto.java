@@ -1,10 +1,10 @@
 package ru.practicum.shareit.booking.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
 @AllArgsConstructor
+@Getter
 public class ItemBookingDto {
     private Long id;
     private String name;

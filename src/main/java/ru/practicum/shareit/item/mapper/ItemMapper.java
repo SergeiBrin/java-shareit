@@ -1,7 +1,5 @@
 package ru.practicum.shareit.item.mapper;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingInfo;
 import ru.practicum.shareit.item.model.Comment;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ItemMapper {
 
     public static Item buildItem(User dbUser, ItemDto itemDto) {
@@ -25,7 +22,7 @@ public class ItemMapper {
                 .user(dbUser)
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
-                .available(itemDto.getAvailable()) // Возвращает значение available
+                .available(itemDto.getAvailable())
                 .build();
     }
 
@@ -34,11 +31,14 @@ public class ItemMapper {
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .available(item.getAvailable())// Возвращает значение available
+                .available(item.getAvailable())
                 .build();
     }
 
-    public static LongItemDto buildLongItemDto(Item item, List<Booking> lastBooking, List<Booking> nextBooking, List<RespCommentDto> comments) {
+    public static LongItemDto buildLongItemDto(Item item,
+                                               List<Booking> lastBooking,
+                                               List<Booking> nextBooking,
+                                               List<RespCommentDto> comments) {
         Booking last = null;
         Booking next = null;
         if (!lastBooking.isEmpty()) {
@@ -52,7 +52,7 @@ public class ItemMapper {
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .available(item.getAvailable())// Возвращает значение available
+                .available(item.getAvailable())
                 .lastBooking(getBookingInfo(last))
                 .nextBooking(getBookingInfo(next))
                 .comments(comments)

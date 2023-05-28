@@ -1,7 +1,5 @@
 package ru.practicum.shareit.booking.mapper;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.enums.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.dto.ItemBookingDto;
@@ -14,16 +12,15 @@ import ru.practicum.shareit.user.model.dto.UserBookingDto;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookingMapper {
 
-    public static Booking buildBooking(ReqBookingDto reqBookingDto,Status status, Item it, User us) {
+    public static Booking buildBooking(ReqBookingDto reqBookingDto, Status status, Item item, User user) {
         return Booking.builder()
                 .start(reqBookingDto.getStart())
                 .end(reqBookingDto.getEnd())
                 .status(status)
-                .item(it)
-                .booker(us)
+                .item(item)
+                .booker(user)
                 .build();
     }
 

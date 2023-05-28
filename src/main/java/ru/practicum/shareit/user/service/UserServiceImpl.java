@@ -94,30 +94,4 @@ public class UserServiceImpl implements UserService {
             throw new IncorrectEmailException("Вы не указали email. Для регистрации необходимо указать email");
         }
     }
-//
-//    // + Ищет дубликат email по всем объектам User.
-//    private void checkEmailUniqueness(User checkUser) {
-//        userRepository.findByEmailContainingIgnoreCase(checkUser.getEmail())
-//                .ifPresent(user -> {
-//            throw new DuplicateEmailException("Пользователь с такой почтой уже есть: " + user.getEmail());
-//        });
-//    }
-//
-//    // Ищет дубликат email по всем объектам User, но исключает из поиска сам обновляемый объект User.
-//    private void checkEmailUniquenessForPatch(Long userId, User checkUser) {
-//        // Что если, передашь в поиск по базе Null?
-//
-//        // Если поиск по email даёт результат, то тут 2 варианта:
-//        // 1. Это email этого же объекта;
-//        // 2. Это email другого объекта.
-//        // Проверяем ->
-//        // Если это email этого же объекта, то ничего не делаем.
-//        // Если это email другого объекта, то выбрасываем исключение, ведь email уникален для каждого User.
-//        userRepository.findByEmailContainingIgnoreCase(checkUser.getEmail())
-//                .ifPresent(dbUser -> {
-//                    if (!(Objects.equals(dbUser.getId(), userId))) {
-//                        throw new DuplicateEmailException("Пользователь с такой почтой уже есть: " + checkUser.getEmail());
-//                    }
-//                });
-//    }
 }

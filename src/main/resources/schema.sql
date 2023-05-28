@@ -24,18 +24,18 @@ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 start_time timestamp,
 end_time timestamp,
 status varchar(255),
-item_id BIGINT,
-user_id BIGINT,
-CONSTRAINT fk_bookings_item_id FOREIGN KEY (item_id) REFERENCES items(id),
-CONSTRAINT fk_bookings_user_id FOREIGN KEY (user_id) REFERENCES users(id)
+item BIGINT,
+booker BIGINT,
+CONSTRAINT fk_bookings_item_id FOREIGN KEY (item) REFERENCES items(id),
+CONSTRAINT fk_bookings_user_id FOREIGN KEY (booker) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS comments (
 id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 text varchar(1000),
-item_id BIGINT,
-user_id BIGINT,
+item BIGINT,
+author BIGINT,
 created timestamp,
-CONSTRAINT fk_comments_item_id FOREIGN KEY (item_id) REFERENCES items(id),
-CONSTRAINT fk_comments_user_id FOREIGN KEY (user_id) REFERENCES users(id)
+CONSTRAINT fk_comments_item_id FOREIGN KEY (item) REFERENCES items(id),
+CONSTRAINT fk_comments_user_id FOREIGN KEY (author) REFERENCES users(id)
 );

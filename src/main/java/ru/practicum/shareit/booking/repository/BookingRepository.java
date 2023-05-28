@@ -90,8 +90,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                                                          LocalDateTime now,
                                                          Sort sort);
 
-    List<Booking> findByItemUserIdAndItemIdAndStatusAndStartBefore(Long userId,
-                                                                   Long itemId,
+    List<Booking> findByItemUserIdAndItemIdAndStatusAndStartBefore(Long user,
+                                                                   Long item,
                                                                    Status status,
                                                                    LocalDateTime now,
                                                                    Pageable page);

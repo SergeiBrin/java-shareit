@@ -1,7 +1,5 @@
 package ru.practicum.shareit.item.mapper;
 
-import lombok.Builder;
-import lombok.Data;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.dto.RespCommentDto;
@@ -12,8 +10,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
-@Builder
 public class CommentMapper {
 
     public static Comment buildComment(String text, Item item, User author) {

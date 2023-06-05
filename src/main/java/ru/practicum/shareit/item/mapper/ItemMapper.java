@@ -1,37 +1,108 @@
 package ru.practicum.shareit.item.mapper;
 
-import org.springframework.stereotype.Component;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.model.BookingInfo;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.model.dto.ItemDto;
+import ru.practicum.shareit.item.model.dto.LongItemDto;
+import ru.practicum.shareit.item.model.dto.RespCommentDto;
+import ru.practicum.shareit.user.model.User;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
 public class ItemMapper {
 
-    public Item buildItem(Long userId, Long itemId, ItemDto itemDto) {
+    public static Item buildItem(User dbUser, ItemDto itemDto) {
         return Item.builder()
-                .itemId(itemId)
-                .userId(userId)
+                .user(dbUser)
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
-                .available(itemDto.getAvailable()) // Возвращает значение available
+                .available(itemDto.getAvailable())
                 .build();
     }
 
-    public ItemDto buildItemDto(Item item) {
+    public static ItemDto buildItemDto(Item item) {
         return ItemDto.builder()
-                .id(item.getItemId())
+                .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .available(item.getAvailable()) // Возвращает значение available
+                .available(item.getAvailable())
                 .build();
     }
 
-    public List<ItemDto> buildItemDtoList(List<Item> items) {
+    public static LongItemDto buildLongItemDto(Item item,
+                                               List<Booking> lastBooking,
+                                               List<Booking> nextBooking,
+                                               List<RespCommentDto> comments) {
+        Booking last = null;
+        Booking next = null;
+        if (!lastBooking.isEmpty()) {
+            last = lastBooking.get(0);
+        }
+        if (!nextBooking.isEmpty()) {
+            next = nextBooking.get(0);
+        }
+
+        return LongItemDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .available(item.getAvailable())
+                .lastBooking(getBookingInfo(last))
+                .nextBooking(getBookingInfo(next))
+                .comments(comments)
+                .build();
+
+    }
+
+    public static List<ItemDto> buildItemDtoList(List<Item> items) {
         return items.stream()
-                .map(this::buildItemDto)
+                .map(ItemMapper::buildItemDto)
                 .collect(Collectors.toList());
     }
+
+    public static List<LongItemDto> buildLongItemDtoList(List<Item> items,
+                                                         Map<Item, Booking> last,
+                                                         Map<Item, Booking> next,
+                                                         Map<Item, List<Comment>> comments) {
+
+        List<LongItemDto> itemDtos = new ArrayList<>();
+
+        for (Item item : items) {
+            List<RespCommentDto> commentDtos = new ArrayList<>();
+            List<Booking> lastBooking = new ArrayList<>();
+            List<Booking> nextBooking = new ArrayList<>();
+
+            if (last.containsKey(item)) {
+                lastBooking.add(last.get(item));
+            }
+            if (next.containsKey(item)) {
+                nextBooking.add(next.get(item));
+            }
+            if (comments.containsKey(item)) {
+                 commentDtos = CommentMapper.buildCommentDtoList(comments.getOrDefault(item, Collections.emptyList()));
+            }
+
+            itemDtos.add(buildLongItemDto(item, lastBooking, nextBooking, commentDtos));
+        }
+
+        return itemDtos;
+    }
+
+    private static BookingInfo getBookingInfo(Booking booking) {
+        if (booking == null) {
+            return null;
+        }
+
+        Long id = booking.getId();
+        Long bookerId = booking.getBooker().getId();
+
+        return new BookingInfo(id, bookerId);
+    }
 }
+

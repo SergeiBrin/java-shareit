@@ -156,7 +156,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = ItemMapper.buildItem(dbUser, itemDto);
         Item dbItem = itemRepository.save(item);
 
-        dbUser.addItem(dbItem.getId());
+        dbUser.addItem(dbItem);
         log.info("POST запрос в ItemController обработан успешно. Метод createItem(), createItem={}", dbItem);
 
         return ItemMapper.buildItemDto(dbItem);

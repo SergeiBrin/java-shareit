@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import ru.practicum.shareit.item.model.Item;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,11 +31,11 @@ public class User {
 
     @ElementCollection
     @CollectionTable(name = "items", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "id")
-    private final Set<Long> items = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private final Set<Item> items = new HashSet<>();
 
-    public void addItem(Long itemId) {
-        items.add(itemId);
+    public void addItem(Item item) {
+        items.add(item);
     }
 
     @Override

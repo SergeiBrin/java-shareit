@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +22,11 @@ import ru.practicum.shareit.item.model.dto.ReqCommentDto;
 import ru.practicum.shareit.item.model.dto.RespCommentDto;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.utils.PageRequestFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,14 +44,17 @@ public class ItemServiceImpl implements ItemService {
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
     private final CommentRepository commentRepository;
+    private final ItemRequestRepository itemRequestRepository;
 
     @Override
     public LongItemDto getItemById(Long userId, Long itemId) {
         checkIfUserExistsById(userId);
         Item dbItem = checkIfItemExistsById(itemId);
 
-        PageRequest pageForLastBooking = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "start"));
-        PageRequest pageForNextBooking = PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "start"));
+        Pageable pageForLastBooking = PageRequestFactory
+                .createPageRequest(0, 1, Sort.by(Sort.Direction.DESC, "start"));
+        Pageable pageForNextBooking = PageRequestFactory
+                .createPageRequest(0, 1, Sort.by(Sort.Direction.ASC, "start"));
 
         List<Booking> lastBooking = bookingRepository.findByItemUserIdAndItemIdAndStatusAndStartBefore(
                 userId,
@@ -65,23 +72,25 @@ public class ItemServiceImpl implements ItemService {
 
         List<Comment> dbComments = commentRepository.findByItemId(itemId);
         List<RespCommentDto> commentDtos = CommentMapper.buildCommentDtoList(dbComments);
-        log.info("GET запрос в ItemController обработан успешно. Метод getItemById(), itemId={}, Item={}", itemId, dbItem);
+        log.info("GET запрос в ItemController обработан успешно. " +
+                "Метод getItemById(), itemId={}, Item={}", itemId, dbItem);
 
         return ItemMapper.buildLongItemDto(dbItem, lastBooking, nextBooking, commentDtos);
     }
 
     @Override
-    public List<LongItemDto> getAllItemsByUser(Long userId) {
+    public List<LongItemDto> getAllItemsByUser(Long userId, int from, int size) {
         checkIfUserExistsById(userId);
 
-        Map<Long, Item> dbItems = itemRepository.findByUserId(userId, Sort.by("id"))
+        Pageable page = PageRequestFactory.createPageRequest(from, size, Sort.by("id"));
+        Map<Long, Item> dbItems = itemRepository.findByUserId(userId, page)
                 .stream()
                 .collect(Collectors.toMap(Item::getId, Function.identity()));
 
         // Возвращаю все APPROVED last и next bookings пользователя, чтобы избежать N+1
         // Упаковываю их в Map с поведением first-win, чтобы убрать лишние Item, которые
         // могут быть забронированы еще раньше или ещё позже.
-        // Map для того, чтобы сделать contains(Item) вместо for each. Так быстрее.
+        // Map для того, чтобы сделать позже contains(Item) вместо for each. Так быстрее.
         Map<Item, Booking> last = bookingRepository
                 .findByItemUserIdAndStatusAndStartBefore(
                         userId,
@@ -104,25 +113,28 @@ public class ItemServiceImpl implements ItemService {
                 .stream()
                 .collect(Collectors.groupingBy(Comment::getItem));
 
-        log.info("GET запрос в ItemController обработан успешно. Метод getItemsByUser(), userId={}, itemsByUser={}",
-                userId, dbItems);
+        log.info("GET запрос в ItemController обработан успешно. " +
+                "Метод getItemsByUser(), userId={}, itemsByUser={}, from={}, size={} ", userId, dbItems, from, size);
 
         return ItemMapper.buildLongItemDtoList(new ArrayList<>(dbItems.values()), last, next, dbComments);
     }
 
     @Override
-    public List<ItemDto> searchAvailableItems(String text) {
+    public List<ItemDto> searchAvailableItems(String text, int from, int size) {
         if (text.isEmpty()) {
-            log.info("GET запрос в ItemController не обработан, так как text пуст. Метод searchAvailableItems(), text={}", text);
+            log.info("GET запрос в метод searchAvailableItems() ItemController не обработан, так как text пуст");
             return new ArrayList<>();
         }
 
-        List<Item> searchItems = itemRepository.findByText(text);
-        log.info("GET запрос в ItemController обработан успешно. Метод searchAvailableItems(), text={}, searchItems={}", text, searchItems);
+        Pageable page = PageRequestFactory.createPageRequest(from, size, Sort.by("id"));
+        List<Item> searchItems = itemRepository.findByText(text, page);
+        log.info("GET запрос в ItemController обработан успешно. " +
+                "Метод searchAvailableItems(), text={}, searchItems={}, from={}, size={} ", text, searchItems, from, size);
 
         return ItemMapper.buildItemDtoList(searchItems);
     }
 
+    @Transactional
     @Override
     public RespCommentDto createComment(Long userId, Long itemId, ReqCommentDto commentDto) {
         User dbUser = checkIfUserExistsById(userId);
@@ -152,11 +164,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto createItem(Long userId, ItemDto itemDto) {
         User dbUser = checkIfUserExistsById(userId);
+        ItemRequest itemRequest = null;
+        if (itemDto.getRequestId() != null) {
+            itemRequest = findItemRequestById(itemDto.getRequestId());
+        }
 
-        Item item = ItemMapper.buildItem(dbUser, itemDto);
+        Item item = ItemMapper.buildItem(dbUser, itemDto, itemRequest);
         Item dbItem = itemRepository.save(item);
 
-        dbUser.addItem(dbItem);
         log.info("POST запрос в ItemController обработан успешно. Метод createItem(), createItem={}", dbItem);
 
         return ItemMapper.buildItemDto(dbItem);
@@ -166,11 +181,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto) {
         Item dbItem = checkIfItemExistsById(itemId);
-        User dbItemUser = dbItem.getUser();
+        User dbUserItem = dbItem.getUser();
 
-        boolean isItemOfUser = Objects.equals(dbItemUser.getId(), userId);
+        boolean isItemOfUser = Objects.equals(dbUserItem.getId(), userId);
         if (!isItemOfUser) {
-            throw new NotFoundException("У пользователя нет вещи c таким идентификатором: " + itemId);
+            throw new NotFoundException("У пользователя нет вещи c id=" + itemId);
 
         }
 
@@ -204,5 +219,9 @@ public class ItemServiceImpl implements ItemService {
     private Item checkIfItemExistsById(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(() ->
                 new NotFoundException(String.format("Вещи с таким id=%d нет", + itemId)));
+    }
+
+    private ItemRequest findItemRequestById(Long itemRequestId) {
+        return itemRequestRepository.findById(itemRequestId).orElse(null);
     }
 }

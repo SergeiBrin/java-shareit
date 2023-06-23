@@ -29,14 +29,8 @@ public class User {
     @Email
     private String email;
 
-    @ElementCollection
-    @CollectionTable(name = "items", joinColumns = @JoinColumn(name = "user_id"))
     @OneToMany(mappedBy = "user")
     private final Set<Item> items = new HashSet<>();
-
-    public void addItem(Item item) {
-        items.add(item);
-    }
 
     @Override
     public boolean equals(Object o) {

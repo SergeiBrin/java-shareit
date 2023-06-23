@@ -1,12 +1,14 @@
 package ru.practicum.shareit.item.model.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ru.practicum.shareit.booking.model.BookingInfo;
 
 import java.util.List;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class LongItemDto {
     private Long id;
@@ -16,4 +18,5 @@ public class LongItemDto {
     private BookingInfo lastBooking;
     private BookingInfo nextBooking;
     private List<RespCommentDto> comments;
+    private Long requestId;
 }

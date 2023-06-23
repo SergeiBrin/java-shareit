@@ -2,7 +2,6 @@ package ru.practicum.shareit.item.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,7 +12,6 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.utils.PageRequestFactory;
 
 import javax.persistence.EntityManager;
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;

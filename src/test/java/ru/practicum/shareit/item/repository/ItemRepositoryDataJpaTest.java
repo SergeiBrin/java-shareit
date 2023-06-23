@@ -1,6 +1,8 @@
 package ru.practicum.shareit.item.repository;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,6 +12,8 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.utils.PageRequestFactory;
 
+import javax.persistence.EntityManager;
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +25,15 @@ class ItemRepositoryDataJpaTest {
     @Autowired
     private TestEntityManager em;
     @Autowired
+    private EntityManager entityManager;
+    @Autowired
     private ItemRepository itemRepository;
+
+    @AfterEach
+    void tearDown() {
+        entityManager.createNativeQuery("ALTER TABLE users ALTER COLUMN id RESTART WITH 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE items ALTER COLUMN id RESTART WITH 1").executeUpdate();
+    }
 
     @Test
     void findByText_ShouldSaveAndReturnItemFromDataBase() {

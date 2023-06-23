@@ -51,10 +51,12 @@ class BookingRepositoryDataJpaTest {
             item,
             booker);
 
-    // Сбрасываю поле id в таблице bookings, чтобы id каждый раз был равен 1
+    // Сбрасываю поле id в таблицах, чтобы id каждый раз был равен 1
     @AfterEach
     void tearDown() {
         entityManager.createNativeQuery("ALTER TABLE bookings ALTER COLUMN id RESTART WITH 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE users ALTER COLUMN id RESTART WITH 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE items ALTER COLUMN id RESTART WITH 1").executeUpdate();
     }
 
     @Test

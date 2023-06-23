@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 class ItemMapperTest {
     private final User user = new User();
@@ -156,7 +155,7 @@ class ItemMapperTest {
         assertThat(buildLongItemDto.getAvailable(), equalTo(item.getAvailable()));
         assertThat(buildLongItemDto.getLastBooking(), equalTo(new BookingInfo(lastBooking.getId(), lastBooking.getBooker().getId())));
         assertThat(buildLongItemDto.getNextBooking(), equalTo(new BookingInfo(nextBooking.getId(), nextBooking.getBooker().getId())));
-        assertThat(buildLongItemDto.getComments(), equalTo(List.of(commentDto)));
+        assertThat(buildLongItemDto.getComments(), contains(commentDto));
         assertThat(buildLongItemDto.getRequestId(), equalTo(item.getRequest().getId()));
     }
 }

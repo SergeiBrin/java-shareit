@@ -79,12 +79,12 @@ class ItemMapperTest {
         comment.setText("Text comment");
         comment.setItem(item);
         comment.setAuthor(new User(3L, "author", "author@gmail.com"));
-        comment.setCreated(LocalDateTime.now());
+        comment.setCreated(LocalDateTime.of(2023, 6, 23, 10, 10, 10));
 
         commentDto.setId(1L);
         commentDto.setText("Text comment");
         commentDto.setAuthorName("author");
-        commentDto.setCreated(LocalDateTime.now());
+        commentDto.setCreated(LocalDateTime.of(2023, 6, 23, 10, 10, 10));
     }
 
     @Test

@@ -37,7 +37,7 @@ class BookingControllerTest {
     @MockBean
     private BookingService bookingService;
     @Autowired
-    private ObjectMapper mapper;;
+    private ObjectMapper mapper;
     @Autowired
     private MockMvc mvc;
     private final RespBookingDto respBookingDto = new RespBookingDto();
@@ -325,6 +325,7 @@ class BookingControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     void updateBooking_ShouldReturnNotFoundExceptionForBooking() throws Exception {
         when(bookingService.updateBooking(anyLong(), not(eq(1L)), anyBoolean()))

@@ -21,7 +21,7 @@ class RespCommentDtoJsonTest {
         respCommentDto.setId(1L);
         respCommentDto.setText("Text");
         respCommentDto.setAuthorName("Author");
-        respCommentDto.setCreated(LocalDateTime.of(2023, 6, 12, 12, 12 ,12));
+        respCommentDto.setCreated(LocalDateTime.of(2023, 6, 12, 12, 12, 12));
 
         JsonContent<RespCommentDto> result = json.write(respCommentDto);
 

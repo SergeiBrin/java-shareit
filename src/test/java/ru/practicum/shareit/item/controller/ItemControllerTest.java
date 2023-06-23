@@ -272,7 +272,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem_ShouldReturnFullUpdateOfItemDto() throws Exception{
+    void updateItem_ShouldReturnFullUpdateOfItemDto() throws Exception {
         when(itemService.updateItem(anyLong(), anyLong(), any(ItemDto.class))).thenAnswer(invocationOnMock -> {
             ItemDto itemDto = invocationOnMock.getArgument(2);
             Item item = ItemMapper.buildItem(user, itemDto, null);
@@ -298,7 +298,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem_ShouldReturnUpdateItemDtoForName() throws Exception{
+    void updateItem_ShouldReturnUpdateItemDtoForName() throws Exception {
         when(itemService.updateItem(anyLong(), anyLong(), any(ItemDto.class))).thenAnswer(invocationOnMock -> {
             ItemDto updateItemDto = invocationOnMock.getArgument(2);
             itemDto.setId(1L);
@@ -324,7 +324,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem_ShouldReturnUpdateItemDtoForDescription() throws Exception{
+    void updateItem_ShouldReturnUpdateItemDtoForDescription() throws Exception {
         when(itemService.updateItem(anyLong(), anyLong(), any(ItemDto.class))).thenAnswer(invocationOnMock -> {
             ItemDto updateItemDto = invocationOnMock.getArgument(2);
             itemDto.setId(1L);
@@ -350,7 +350,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem_ShouldReturnUpdateItemDtoForAvailable() throws Exception{
+    void updateItem_ShouldReturnUpdateItemDtoForAvailable() throws Exception {
         when(itemService.updateItem(anyLong(), anyLong(), any(ItemDto.class))).thenAnswer(invocationOnMock -> {
             ItemDto updateItemDto = invocationOnMock.getArgument(2);
             itemDto.setId(1L);
@@ -376,7 +376,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem_ShouldReturnUpdateItemDtoForRequestId() throws Exception{
+    void updateItem_ShouldReturnUpdateItemDtoForRequestId() throws Exception {
         when(itemService.updateItem(anyLong(), anyLong(), any(ItemDto.class))).thenAnswer(invocationOnMock -> {
             ItemDto updateItemDto = invocationOnMock.getArgument(2);
             itemDto.setId(1L);

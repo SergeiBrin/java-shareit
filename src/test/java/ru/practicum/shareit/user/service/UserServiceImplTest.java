@@ -60,7 +60,7 @@ class UserServiceImplTest {
                 NotFoundException.class,
                 () -> userService.getUserById(1L));
 
-        assertThat("Пользователя с таким id=1 нет" , equalTo(e.getMessage()));
+        assertThat("Пользователя с таким id=1 нет", equalTo(e.getMessage()));
     }
 
     @Test

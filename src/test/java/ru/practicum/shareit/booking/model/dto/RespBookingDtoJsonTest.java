@@ -11,7 +11,6 @@ import ru.practicum.shareit.user.model.dto.UserBookingDto;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 class RespBookingDtoJsonTest {

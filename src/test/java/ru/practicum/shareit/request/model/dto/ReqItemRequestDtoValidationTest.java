@@ -1,7 +1,6 @@
 package ru.practicum.shareit.request.model.dto;
 
 import org.junit.jupiter.api.Test;
-import ru.practicum.shareit.user.model.User;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -10,7 +9,7 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ReqItemRequestDtoValidationTest {
     private final ReqItemRequestDto requestDto = new ReqItemRequestDto("Text");

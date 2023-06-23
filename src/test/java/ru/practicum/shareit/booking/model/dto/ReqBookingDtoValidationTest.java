@@ -7,6 +7,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +24,7 @@ class ReqBookingDtoValidationTest {
         reqBookingDto.setStart(LocalDateTime.now().plusDays(1));
         reqBookingDto.setEnd(LocalDateTime.now().plusDays(2));
 
+        Locale.setDefault(Locale.ENGLISH);
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
@@ -35,7 +37,7 @@ class ReqBookingDtoValidationTest {
 
         ConstraintViolation<ReqBookingDto> violation = violations.iterator().next();
         assertThat("itemId", is(violation.getPropertyPath().toString()));
-        assertThat("не должно равняться null", is(violation.getMessage()));
+        assertThat("must not be null", is(violation.getMessage()));
     }
 
     @Test
@@ -47,7 +49,7 @@ class ReqBookingDtoValidationTest {
 
         ConstraintViolation<ReqBookingDto> violation = violations.iterator().next();
         assertThat("start", is(violation.getPropertyPath().toString()));
-        assertThat("не должно равняться null", is(violation.getMessage()));
+        assertThat("must not be null", is(violation.getMessage()));
     }
 
     @Test
@@ -59,7 +61,7 @@ class ReqBookingDtoValidationTest {
 
         ConstraintViolation<ReqBookingDto> violation = violations.iterator().next();
         assertThat("start", is(violation.getPropertyPath().toString()));
-        assertThat("должно содержать сегодняшнее число или дату, которая еще не наступила",
+        assertThat("must be a date in the present or in the future",
                 is(violation.getMessage()));
     }
 
@@ -72,7 +74,7 @@ class ReqBookingDtoValidationTest {
 
         ConstraintViolation<ReqBookingDto> violation = violations.iterator().next();
         assertThat("end", is(violation.getPropertyPath().toString()));
-        assertThat("не должно равняться null", is(violation.getMessage()));
+        assertThat("must not be null", is(violation.getMessage()));
     }
 
     @Test
@@ -84,6 +86,6 @@ class ReqBookingDtoValidationTest {
 
         ConstraintViolation<ReqBookingDto> violation = violations.iterator().next();
         assertThat("end", is(violation.getPropertyPath().toString()));
-        assertThat("должно содержать дату, которая еще не наступила", is(violation.getMessage()));
+        assertThat("must be a future date", is(violation.getMessage()));
     }
 }

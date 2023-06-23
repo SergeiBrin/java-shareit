@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.Locale;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +23,7 @@ class UserValidationTest {
         user.setName("user");
         user.setEmail("user@gmail.com");
 
+        Locale.setDefault(Locale.ENGLISH);
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
@@ -34,6 +36,6 @@ class UserValidationTest {
 
         ConstraintViolation<User> violation = violations.iterator().next();
         assertThat("email", is(violation.getPropertyPath().toString()));
-        assertThat("должно иметь формат адреса электронной почты", is(violation.getMessage()));
+        assertThat("must be a well-formed email address", is(violation.getMessage()));
     }
 }

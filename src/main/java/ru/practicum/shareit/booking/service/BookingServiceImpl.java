@@ -80,6 +80,9 @@ public class BookingServiceImpl implements BookingService {
                 throw new UnsupportedStateException(String.format("State=%s не поддерживается", state));
         }
 
+        log.info("GET запрос в BookingController обработан успешно. Метод getUserBookingsByState(), " +
+                "userId={}, state={}", userId, state);
+
         return BookingMapper.buildRespBookingDto(dbBookings);
     }
 
@@ -115,6 +118,9 @@ public class BookingServiceImpl implements BookingService {
                 throw new UnsupportedStateException(String.format("State=%s не поддерживается", state));
         }
 
+        log.info("GET запрос в BookingController обработан успешно. Метод getOwnerBookingsByState(), " +
+                "userId={}, state={}", userId, state);
+
         return BookingMapper.buildRespBookingDto(dbBookings);
     }
 
@@ -135,7 +141,8 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = BookingMapper.buildBooking(reqBookingDto, Status.WAITING, dbItem, dbUser);
         Booking createBooking = bookingRepository.save(booking);
         log.info("POST запрос в BookingController обработан успешно. " +
-                "Метод createBooking(), booking={}", createBooking);
+                 "Метод createBooking(), userId={}, reqBookingDto={}, createBooking={}",
+                 userId, reqBookingDto, createBooking);
 
         return BookingMapper.buildRespBookingDto(createBooking);
     }
@@ -164,6 +171,9 @@ public class BookingServiceImpl implements BookingService {
         }
 
         Booking updateBooking = bookingRepository.save(dbBooking);
+        log.info("PATCH запрос в BookingController обработан успешно. " +
+                "Метод updateBooking(), userId={}, booking={}, approved={}, updateBooking={}",
+                userId, bookingId, approved, updateBooking);
 
         return BookingMapper.buildRespBookingDto(updateBooking);
     }

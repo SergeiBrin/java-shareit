@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ItemRequestMapperTest {
     private final User user = new User();
@@ -49,7 +50,7 @@ class ItemRequestMapperTest {
 
         assertThat(buildRespItemRequestDto.getId(), equalTo(itemRequest.getId()));
         assertThat(buildRespItemRequestDto.getDescription(), equalTo(itemRequest.getDescription()));
-        assertThat(buildRespItemRequestDto.getCreated(), equalTo(itemRequest.getCreated()));
+        assertEquals(itemRequest.getCreated(), buildRespItemRequestDto.getCreated());
         assertThat(buildRespItemRequestDto.getItems(), equalTo(itemRequest.getItems()));
     }
 
@@ -62,7 +63,7 @@ class ItemRequestMapperTest {
 
         assertThat(buildRespItemRequestDto.getId(), equalTo(itemRequest.getId()));
         assertThat(buildRespItemRequestDto.getDescription(), equalTo(itemRequest.getDescription()));
-        assertThat(buildRespItemRequestDto.getCreated(), equalTo(itemRequest.getCreated()));
+        assertEquals(itemRequest.getCreated(), buildRespItemRequestDto.getCreated());
         assertThat(buildRespItemRequestDto.getItems(), equalTo(itemRequest.getItems()));
     }
 }

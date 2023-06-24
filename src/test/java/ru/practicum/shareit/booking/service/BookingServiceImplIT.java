@@ -22,6 +22,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -93,8 +94,8 @@ class BookingServiceImplIT {
         Booking getBooking =  query.getSingleResult();
 
         assertThat(getBooking.getId(), equalTo(1L));
-        assertThat(getBooking.getStart(), equalTo(reqBookingDto.getStart()));
-        assertThat(getBooking.getEnd(), equalTo(reqBookingDto.getEnd()));
+        assertEquals(reqBookingDto.getStart(), getBooking.getStart());
+        assertEquals(reqBookingDto.getEnd(), getBooking.getEnd());
         assertThat(getBooking.getItem().getId(), equalTo(dbItemDto.getId()));
         assertThat(getBooking.getItem().getUser(), equalTo(dbUser1));
         assertThat(getBooking.getBooker(), equalTo(dbUser2));
@@ -123,8 +124,8 @@ class BookingServiceImplIT {
         Booking getBooking =  query.getSingleResult();
 
         assertThat(getBooking.getId(), equalTo(1L));
-        assertThat(getBooking.getStart(), equalTo(reqBookingDto.getStart()));
-        assertThat(getBooking.getEnd(), equalTo(reqBookingDto.getEnd()));
+        assertEquals(reqBookingDto.getStart(), getBooking.getStart());
+        assertEquals(reqBookingDto.getEnd(), getBooking.getEnd());
         assertThat(getBooking.getItem().getId(), equalTo(dbItemDto.getId()));
         assertThat(getBooking.getItem().getUser(), equalTo(dbUser1));
         assertThat(getBooking.getBooker(), equalTo(dbUser2));
@@ -556,8 +557,8 @@ class BookingServiceImplIT {
         Booking createBooking =  query.getSingleResult();
 
         assertThat(createBooking.getId(), equalTo(1L));
-        assertThat(createBooking.getStart(), equalTo(reqBookingDto.getStart()));
-        assertThat(createBooking.getEnd(), equalTo(reqBookingDto.getEnd()));
+        assertEquals(reqBookingDto.getStart(), createBooking.getStart());
+        assertEquals(reqBookingDto.getEnd(), createBooking.getEnd());
         assertThat(createBooking.getItem().getId(), equalTo(dbItemDto.getId()));
         assertThat(createBooking.getBooker(), equalTo(dbUser2));
         assertThat(createBooking.getStatus(), equalTo(Status.WAITING));
@@ -578,8 +579,8 @@ class BookingServiceImplIT {
         Booking updateBooking =  query.getSingleResult();
 
         assertThat(updateBooking.getId(), equalTo(1L));
-        assertThat(updateBooking.getStart(), equalTo(reqBookingDto.getStart()));
-        assertThat(updateBooking.getEnd(), equalTo(reqBookingDto.getEnd()));
+        assertEquals(reqBookingDto.getStart(), updateBooking.getStart());
+        assertEquals(reqBookingDto.getEnd(), updateBooking.getEnd());
         assertThat(updateBooking.getItem().getId(), equalTo(dbItemDto.getId()));
         assertThat(updateBooking.getBooker(), equalTo(dbUser2));
         assertThat(updateBooking.getStatus(), equalTo(Status.APPROVED));
@@ -600,8 +601,8 @@ class BookingServiceImplIT {
         Booking updateBooking =  query.getSingleResult();
 
         assertThat(updateBooking.getId(), equalTo(1L));
-        assertThat(updateBooking.getStart(), equalTo(reqBookingDto.getStart()));
-        assertThat(updateBooking.getEnd(), equalTo(reqBookingDto.getEnd()));
+        assertEquals(reqBookingDto.getStart(), updateBooking.getStart());
+        assertEquals(reqBookingDto.getEnd(), updateBooking.getEnd());
         assertThat(updateBooking.getItem().getId(), equalTo(dbItemDto.getId()));
         assertThat(updateBooking.getBooker(), equalTo(dbUser2));
         assertThat(updateBooking.getStatus(), equalTo(Status.REJECTED));

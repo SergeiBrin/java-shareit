@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CommentMapperTest {
     private final User user = new User();
@@ -68,7 +69,7 @@ class CommentMapperTest {
         assertThat(buildCommentDto.getId(), equalTo(comment.getId()));
         assertThat(buildCommentDto.getText(), equalTo(comment.getText()));
         assertThat(buildCommentDto.getAuthorName(), equalTo(comment.getAuthor().getName()));
-        assertThat(buildCommentDto.getCreated(), equalTo(comment.getCreated()));
+        assertEquals(comment.getCreated(), buildCommentDto.getCreated());
     }
 
     @Test
@@ -81,6 +82,6 @@ class CommentMapperTest {
         assertThat(buildCommentDto.getId(), equalTo(comment.getId()));
         assertThat(buildCommentDto.getText(), equalTo(comment.getText()));
         assertThat(buildCommentDto.getAuthorName(), equalTo(comment.getAuthor().getName()));
-        assertThat(buildCommentDto.getCreated(), equalTo(comment.getCreated()));
+        assertEquals(comment.getCreated(), buildCommentDto.getCreated());
     }
 }

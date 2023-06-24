@@ -114,7 +114,7 @@ public class ItemServiceImpl implements ItemService {
                 .collect(Collectors.groupingBy(Comment::getItem));
 
         log.info("GET запрос в ItemController обработан успешно. " +
-                "Метод getItemsByUser(), userId={}, itemsByUser={}, from={}, size={} ", userId, dbItems, from, size);
+                "Метод getItemsByUser(), userId={}, itemsByUser={}", userId, dbItems);
 
         return ItemMapper.buildLongItemDtoList(new ArrayList<>(dbItems.values()), last, next, dbComments);
     }
@@ -129,7 +129,7 @@ public class ItemServiceImpl implements ItemService {
         Pageable page = PageRequestFactory.createPageRequest(from, size, Sort.by("id"));
         List<Item> searchItems = itemRepository.findByText(text, page);
         log.info("GET запрос в ItemController обработан успешно. " +
-                "Метод searchAvailableItems(), text={}, searchItems={}, from={}, size={} ", text, searchItems, from, size);
+                "Метод searchAvailableItems(), text={}, searchItems={}", text, searchItems);
 
         return ItemMapper.buildItemDtoList(searchItems);
     }
@@ -170,11 +170,12 @@ public class ItemServiceImpl implements ItemService {
         }
 
         Item item = ItemMapper.buildItem(dbUser, itemDto, itemRequest);
-        Item dbItem = itemRepository.save(item);
+        Item createItem = itemRepository.save(item);
 
-        log.info("POST запрос в ItemController обработан успешно. Метод createItem(), createItem={}", dbItem);
+        log.info("POST запрос в ItemController обработан успешно. " +
+                "Метод createItem(), userId={}, itemDto={}, createItem={}", userId, itemDto, createItem);
 
-        return ItemMapper.buildItemDto(dbItem);
+        return ItemMapper.buildItemDto(createItem);
     }
 
     @Transactional
@@ -206,7 +207,8 @@ public class ItemServiceImpl implements ItemService {
         }
 
         Item updateItem = itemRepository.save(dbItem);
-        log.info("PATCH запрос в ItemController обработан успешно. Метод updateItem(), itemId={}, updateItem={}", itemId, updateItem);
+        log.info("PATCH запрос в ItemController обработан успешно. " +
+                "Метод updateItem(), userId={}, itemId={}, updateItem={}", userId, itemId, updateItem);
 
         return ItemMapper.buildItemDto(updateItem);
     }

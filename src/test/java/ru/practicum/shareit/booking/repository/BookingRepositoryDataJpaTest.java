@@ -18,7 +18,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 class BookingRepositoryDataJpaTest {
@@ -78,8 +80,8 @@ class BookingRepositoryDataJpaTest {
         Booking dbBooking = bookings.get(0);
 
         assertThat(dbBooking.getId(), equalTo(1L));
-        assertThat(dbBooking.getStart(), lessThan(LocalDateTime.now()));
-        assertThat(dbBooking.getEnd(), greaterThan(LocalDateTime.now()));
+        assertTrue(dbBooking.getStart().isBefore(LocalDateTime.now()));
+        assertTrue(dbBooking.getEnd().isAfter(LocalDateTime.now()));
         assertThat(dbBooking.getStatus(), equalTo(booking.getStatus()));
         assertThat(dbBooking.getItem(), equalTo(booking.getItem()));
         assertThat(dbBooking.getBooker(), equalTo(booking.getBooker()));
@@ -104,8 +106,8 @@ class BookingRepositoryDataJpaTest {
         Booking dbBooking = bookings.get(0);
 
         assertThat(dbBooking.getId(), equalTo(1L));
-        assertThat(dbBooking.getStart(), lessThan(LocalDateTime.now()));
-        assertThat(dbBooking.getEnd(), greaterThan(LocalDateTime.now()));
+        assertTrue(dbBooking.getStart().isBefore(LocalDateTime.now()));
+        assertTrue(dbBooking.getEnd().isAfter(LocalDateTime.now()));
         assertThat(dbBooking.getStatus(), equalTo(booking.getStatus()));
         assertThat(dbBooking.getItem(), equalTo(booking.getItem()));
         assertThat(dbBooking.getBooker(), equalTo(booking.getBooker()));
@@ -127,8 +129,8 @@ class BookingRepositoryDataJpaTest {
                 LocalDateTime.now().plusDays(2));
 
         assertThat(dbBooking.getId(), equalTo(1L));
-        assertThat(dbBooking.getStart(), lessThan(LocalDateTime.now()));
-        assertThat(dbBooking.getEnd(), greaterThan(LocalDateTime.now()));
+        assertTrue(dbBooking.getStart().isBefore(LocalDateTime.now()));
+        assertTrue(dbBooking.getEnd().isAfter(LocalDateTime.now()));
         assertThat(dbBooking.getStatus(), equalTo(booking.getStatus()));
         assertThat(dbBooking.getItem(), equalTo(booking.getItem()));
         assertThat(dbBooking.getBooker(), equalTo(booking.getBooker()));

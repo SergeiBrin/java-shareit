@@ -18,6 +18,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BookingMapperTest {
     private final User booker = new User();
@@ -60,8 +61,8 @@ class BookingMapperTest {
     void buildBooking_ShouldReturnBooking() {
         Booking buildBooking = BookingMapper.buildBooking(reqBookingDto, Status.WAITING, item, booker);
 
-        assertThat(buildBooking.getStart(), equalTo(reqBookingDto.getStart()));
-        assertThat(buildBooking.getEnd(), equalTo(reqBookingDto.getEnd()));
+        assertEquals(reqBookingDto.getStart(), buildBooking.getStart());
+        assertEquals(reqBookingDto.getEnd(), buildBooking.getEnd());
         assertThat(buildBooking.getStatus(), equalTo(Status.WAITING));
         assertThat(buildBooking.getItem(), equalTo(item));
         assertThat(buildBooking.getBooker(), equalTo(booker));
@@ -72,8 +73,8 @@ class BookingMapperTest {
         RespBookingDto buildRespBookingDto = BookingMapper.buildRespBookingDto(booking);
 
         assertThat(buildRespBookingDto.getId(), equalTo(booking.getId()));
-        assertThat(buildRespBookingDto.getStart(), equalTo(booking.getStart()));
-        assertThat(buildRespBookingDto.getEnd(), equalTo(booking.getEnd()));
+        assertEquals(booking.getStart(), buildRespBookingDto.getStart());
+        assertEquals(booking.getEnd(), buildRespBookingDto.getEnd());
         assertThat(buildRespBookingDto.getStatus(), equalTo(booking.getStatus()));
         assertThat(buildRespBookingDto.getBooker(), equalTo(new UserBookingDto(booking.getBooker().getId())));
         assertThat(buildRespBookingDto.getItem(),
@@ -88,8 +89,8 @@ class BookingMapperTest {
         RespBookingDto buildRespBookingDto = buildRespBookingDtos.get(0);
 
         assertThat(buildRespBookingDto.getId(), equalTo(booking.getId()));
-        assertThat(buildRespBookingDto.getStart(), equalTo(booking.getStart()));
-        assertThat(buildRespBookingDto.getEnd(), equalTo(booking.getEnd()));
+        assertEquals(booking.getStart(), buildRespBookingDto.getStart());
+        assertEquals(booking.getEnd(), buildRespBookingDto.getEnd());
         assertThat(buildRespBookingDto.getStatus(), equalTo(booking.getStatus()));
         assertThat(buildRespBookingDto.getBooker(), equalTo(new UserBookingDto(booking.getBooker().getId())));
         assertThat(buildRespBookingDto.getItem(),

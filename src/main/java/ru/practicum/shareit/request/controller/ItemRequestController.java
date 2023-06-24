@@ -37,7 +37,7 @@ public class ItemRequestController {
                                                           @RequestParam(defaultValue = "0") int from,
                                                           @RequestParam(defaultValue = "10") int size) {
         log.info("Поступил GET запрос в ItemRequestController: " +
-                        "метод getRequestsFromOthers(), userId={}, from={}, size={} ", userId, from, size);
+                        "метод getRequestsFromOthers(), userId={}", userId);
         return itemRequestService.getRequestsFromOthers(userId, from, size);
     }
 

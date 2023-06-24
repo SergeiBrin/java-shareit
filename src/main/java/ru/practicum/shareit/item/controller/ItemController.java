@@ -40,7 +40,6 @@ public class ItemController {
                                         @Valid @RequestBody ReqCommentDto text) {
         log.info("Поступил POST запрос в ItemController: метод createComment(), userId={}, itemId={}, text={}",
                 userId, itemId, text);
-
         return itemService.createComment(userId, itemId, text);
     }
 
@@ -49,7 +48,7 @@ public class ItemController {
                                               @RequestParam(defaultValue = "0") int from,
                                               @RequestParam(defaultValue = "10") int size) {
         log.info("Поступил GET запрос в ItemController: " +
-                "метод searchAvailableItems(), text={}, from={}, size={} ", text, from, size);
+                "метод searchAvailableItems(), text={}", text);
         return itemService.searchAvailableItems(text, from, size);
     }
 

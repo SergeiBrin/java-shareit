@@ -61,7 +61,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
         List<ItemRequest> itemRequests = itemRequestRepository.findByCreatorIdNot(userId, page);
         log.info("GET запрос в ItemRequestController обработан успешно. " +
-                "Метод getRequestsFromOthers(), userId={}, from={}, size={}", userId, from, size);
+                "Метод getRequestsFromOthers(), userId={}", userId);
 
         return ItemRequestMapper.buildItemRequestDto(itemRequests);
     }
@@ -72,10 +72,11 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         User user = userService.getUserById(userId);
 
         ItemRequest itemRequest = ItemRequestMapper.buildItemRequest(user, itemRequestDto);
-        ItemRequest dbItemRequest = itemRequestRepository.save(itemRequest);
+        ItemRequest createItemRequest = itemRequestRepository.save(itemRequest);
         log.info("POST запрос в ItemRequestController обработан успешно. " +
-                "метод createRequest(), userId={}, itemRequestDto={} ", userId, itemRequestDto);
+                "Метод createRequest(), userId={}, itemRequestDto={}, createItemRequest={}",
+                userId, itemRequestDto, createItemRequest);
 
-        return ItemRequestMapper.buildItemRequestDto(dbItemRequest);
+        return ItemRequestMapper.buildItemRequestDto(createItemRequest);
     }
 }

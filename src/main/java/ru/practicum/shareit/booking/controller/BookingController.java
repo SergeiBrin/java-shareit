@@ -27,18 +27,22 @@ public class BookingController {
 
     @GetMapping
     public List<RespBookingDto> getUserBookingsByState(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                       @RequestParam(defaultValue = "ALL") String state) {
+                                                       @RequestParam(defaultValue = "ALL") String state,
+                                                       @RequestParam(defaultValue = "0") int from,
+                                                       @RequestParam(defaultValue = "10") int size) {
         log.info("Поступил GET запрос в BookingController. " +
                 "Метод getUserBookingsByState(), userId={} ", userId);
-        return bookingService.getUserBookingsByState(userId, state);
+        return bookingService.getUserBookingsByState(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<RespBookingDto> getOwnerBookingsByState(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                        @RequestParam(defaultValue = "ALL") String state) {
+                                                        @RequestParam(defaultValue = "ALL") String state,
+                                                        @RequestParam(defaultValue = "0") int from,
+                                                        @RequestParam(defaultValue = "10") int size) {
         log.info("Поступил GET запрос в BookingController. " +
                 "Метод getOwnerBookingsByState(), userId={} ", userId);
-        return bookingService.getOwnerBookingsByState(userId, state);
+        return bookingService.getOwnerBookingsByState(userId, state, from, size);
     }
 
     @PostMapping

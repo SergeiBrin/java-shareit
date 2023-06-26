@@ -2,14 +2,15 @@ package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.IncorrectEmailException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.utils.PageRequestFactory;
 
 import java.util.List;
 
@@ -18,7 +19,6 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ItemRepository itemRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -30,12 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = userRepository.findAll(Sort.by("id"));
+    public List<User> getAllUsers(int from, int size) {
+        Pageable page = PageRequestFactory.createPageRequest(from, size, Sort.by(Sort.Direction.ASC, "id"));
+
+        List<User> users = userRepository.findAll(page).getContent();
         log.info("GET запрос в UserController обработан успешно. Метод getAllUsers()");
 
         return users;
-
     }
 
     @Transactional
@@ -84,11 +85,11 @@ public class UserServiceImpl implements UserService {
 
     private User checkIfUserExistsById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() ->
-                new NotFoundException("Пользователя с таким id нет: " + userId));
+                new NotFoundException(String.format("Пользователя с таким id=%d нет", userId)));
     }
 
     private void checkEmailForEmpty(User user) {
-        boolean isEmpty = user.getEmail() == null;
+        boolean isEmpty = user.getEmail() == null || user.getEmail().isEmpty();
 
         if (isEmpty) {
             throw new IncorrectEmailException("Вы не указали email. Для регистрации необходимо указать email");

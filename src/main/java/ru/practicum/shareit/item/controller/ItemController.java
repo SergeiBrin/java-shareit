@@ -27,9 +27,11 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<LongItemDto> getAllItemsByUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<LongItemDto> getAllItemsByUser(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                               @RequestParam(defaultValue = "0") int from,
+                                               @RequestParam(defaultValue = "10") int size) {
         log.info("Поступил GET запрос в ItemController: метод getAllItemsByUser(), userId={}", userId);
-        return itemService.getAllItemsByUser(userId);
+        return itemService.getAllItemsByUser(userId, from, size);
     }
 
     @PostMapping("/{itemId}/comment")
@@ -38,14 +40,16 @@ public class ItemController {
                                         @Valid @RequestBody ReqCommentDto text) {
         log.info("Поступил POST запрос в ItemController: метод createComment(), userId={}, itemId={}, text={}",
                 userId, itemId, text);
-
         return itemService.createComment(userId, itemId, text);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> searchAvailableItems(@RequestParam String text) {
-        log.info("Поступил GET запрос в ItemController: метод searchAvailableItems(), text={}", text);
-        return itemService.searchAvailableItems(text);
+    public List<ItemDto> searchAvailableItems(@RequestParam String text,
+                                              @RequestParam(defaultValue = "0") int from,
+                                              @RequestParam(defaultValue = "10") int size) {
+        log.info("Поступил GET запрос в ItemController: " +
+                "метод searchAvailableItems(), text={}", text);
+        return itemService.searchAvailableItems(text, from, size);
     }
 
     @PostMapping

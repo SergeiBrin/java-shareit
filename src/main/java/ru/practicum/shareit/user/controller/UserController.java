@@ -23,9 +23,10 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(@RequestParam(defaultValue = "0") int from,
+                                  @RequestParam(defaultValue = "10") int size) {
         log.info("Поступил GET запрос в UserController: метод getAllUsers()");
-        return service.getAllUsers();
+        return service.getAllUsers(from, size);
     }
 
     @PostMapping

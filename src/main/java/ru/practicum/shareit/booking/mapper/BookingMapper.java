@@ -15,6 +15,7 @@ import java.util.List;
 public class BookingMapper {
 
     public static Booking buildBooking(ReqBookingDto reqBookingDto, Status status, Item item, User user) {
+
         return Booking.builder()
                 .start(reqBookingDto.getStart())
                 .end(reqBookingDto.getEnd())

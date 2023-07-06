@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class ItemMapper {
 
     public static Item buildItem(User dbUser, ItemDto itemDto, ItemRequest itemRequest) {
-
         return Item.builder()
                 .user(dbUser)
                 .name(itemDto.getName())

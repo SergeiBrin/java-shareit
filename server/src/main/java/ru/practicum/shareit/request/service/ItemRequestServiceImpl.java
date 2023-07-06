@@ -24,7 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Setter
 public class ItemRequestServiceImpl implements ItemRequestService {
+
     private final ItemRequestRepository itemRequestRepository;
+
     private final UserService userService;
 
     @Transactional(readOnly = true)

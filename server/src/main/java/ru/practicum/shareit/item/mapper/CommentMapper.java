@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class CommentMapper {
 
     public static Comment buildComment(String text, Item item, User author) {
-
         return Comment.builder()
                 .text(text)
                 .item(item)
@@ -23,14 +22,12 @@ public class CommentMapper {
     }
 
     public static List<RespCommentDto> buildCommentDtoList(List<Comment> comments) {
-
         return comments.stream()
                 .map(CommentMapper::buildCommentDto)
                 .collect(Collectors.toList());
     }
 
     public static RespCommentDto buildCommentDto(Comment comment) {
-
         return RespCommentDto.builder()
                 .id(comment.getId())
                 .text(comment.getText())

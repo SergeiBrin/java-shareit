@@ -15,9 +15,10 @@ import java.util.Map;
 @Service
 public class BookingClient extends BaseClient {
     private static final String API_PREFIX = "/bookings";
+    private static final String serverUrl = "http://localhost:9090";
 
     @Autowired
-    public BookingClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public BookingClient(RestTemplateBuilder builder) {
         super(builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
                 .requestFactory(HttpComponentsClientHttpRequestFactory::new)

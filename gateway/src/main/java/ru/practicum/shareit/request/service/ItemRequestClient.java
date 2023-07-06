@@ -15,9 +15,10 @@ import java.util.Map;
 @Service
 public class ItemRequestClient extends BaseClient {
     private static final String API_PREFIX = "/requests";
+    private static final String serverUrl = "http://localhost:9090";
 
     @Autowired
-    public ItemRequestClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public ItemRequestClient(RestTemplateBuilder builder) {
         super(builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
                 .requestFactory(HttpComponentsClientHttpRequestFactory::new)

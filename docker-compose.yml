@@ -11,6 +11,7 @@ services:
       - server
     environment:
       - SHAREIT_SERVER_URL=http://server:9090
+      - TZ=Asia/Yekaterinburg
 
   server:
     build: ./server
@@ -24,6 +25,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+      - TZ=Asia/Yekaterinburg
 
   db:
     image: postgres:13.7-alpine
@@ -34,5 +36,6 @@ services:
       - POSTGRES_DB=shareit
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+      - TZ=Asia/Yekaterinburg
 
 

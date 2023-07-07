@@ -91,6 +91,7 @@ public class BookingServiceImpl implements BookingService {
 
         Pageable page = PageRequestFactory
                 .createPageRequest(from, size, Sort.by(Sort.Direction.DESC, "start"));
+
         List<Booking> dbBookings = new ArrayList<>();
 
         switch (state) {
